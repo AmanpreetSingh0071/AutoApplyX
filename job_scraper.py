@@ -3,12 +3,11 @@ import requests
 from bs4 import BeautifulSoup
 from sentence_transformers import SentenceTransformer, util
 
-# ✅ Load the model once using Streamlit cache
+# Load the model once
 @st.cache_resource
 def load_model():
     return SentenceTransformer("all-MiniLM-L6-v2")
 
-# ✅ Greenhouse company slugs and names (expand as needed)
 GREENHOUSE_COMPANIES = {
     "cohere": "Cohere",
     "runwayml": "Runway",
@@ -48,22 +47,23 @@ def fetch_jobs(keyword="AI Engineer"):
                     continue
 
                 title = title_elem.text.strip()
-                link = "https://boards.greenhouse.io" + title_elem["href"]
+                href = title_elem["href"]
+                link = href if href.startswith("http") else "https://boards.greenhouse.io" + href
                 location = location_elem.text.strip() if location_elem else "N/A"
 
-                # Build semantic vector for the job
+                # Semantic scoring
                 full_text = f"{title} {location} {company_name}"
                 job_embedding = model.encode(full_text, convert_to_tensor=True)
                 similarity = util.pytorch_cos_sim(query_embedding, job_embedding).item()
 
-                # ✅ Combo match: keep if either match is strong
+                # Combo filter
                 passes_keyword = required_word in title.lower()
                 passes_similarity = similarity >= 0.7
 
                 if passes_keyword or passes_similarity:
                     results.append({
-                        "company": company_name,
                         "position": title,
+                        "company": company_name,
                         "location": location,
                         "url": link,
                         "score": round(similarity, 3)
