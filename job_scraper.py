@@ -30,7 +30,7 @@ def fetch_jobs(keyword="AI Engineer"):
 
     for slug, company_name in GREENHOUSE_COMPANIES.items():
         url = f"https://boards.greenhouse.io/embed/job_board?for={slug}"
-        headers = {"User-Agent": "Mozilla/5.0"}
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"}
 
         try:
             resp = requests.get(url, headers=headers)
