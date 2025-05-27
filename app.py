@@ -8,6 +8,15 @@ from tools import extract_text_from_pdf_file, score_resume
 st.set_page_config(page_title="AutoApplyX - AI Job Agent", layout="centered")
 st.title("🤖 AutoApplyX — Your Personal AI Job Agent")
 
+# 🔒 Hide GitHub icon, menu, and footer
+st.markdown("""
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
+
 # Initialize session state
 if "job_results" not in st.session_state:
     st.session_state.job_results = []
