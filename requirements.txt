@@ -3,4 +3,4 @@ beautifulsoup4
 sentence-transformers==2.2.2
 pymupdf
 pandas
-torch==2.1.0
+torch==2.5.0
