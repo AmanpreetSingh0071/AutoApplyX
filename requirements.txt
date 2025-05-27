@@ -1,5 +1,6 @@
 streamlit
 beautifulsoup4
+sentence-transformers==2.2.2
 pymupdf
-sentence-transformers
 pandas
+torch==2.1.0
